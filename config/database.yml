@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: cafe_second_production
-  username: cafe_second
-  password: <%= ENV['CAFE_SECOND_DATABASE_PASSWORD'] %>
+  username: root
+  password: Hoang123456
