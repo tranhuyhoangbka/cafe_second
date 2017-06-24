@@ -14,6 +14,8 @@ set :use_sudo , false
 set :stage, :production
 set :deploy_via, :remote_cache
 set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:application)}"
+set :linked_files, %w{config/database.yml config/secrets.yml .env}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :rvm_ruby, '2.4.0'
 
 set :puma_role, :app

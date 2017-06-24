@@ -17,3 +17,7 @@
 /yarn-error.log
 
 .byebug_history
+.env
+.env.production
+/config/database.yml
+/config/secrets.yml
