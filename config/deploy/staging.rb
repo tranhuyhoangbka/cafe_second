@@ -6,8 +6,10 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-
-
+server '54.70.123.166', roles: [:web, :app, :db], primary: true
+set :stage, :staging
+set :puma_env, fetch(:rack_env, fetch(:rails_env, 'staging'))
+set :branch, :staging
 
 # role-based syntax
 # ==================
@@ -59,3 +61,18 @@
 #     auth_methods: %w(publickey password)
 #     # password: "please use keys"
 #   }
+
+namespace :deploy do
+  desc 'Make sure local git is in sync with remote'
+  task :check_revision do
+    on roles(:app) do
+      unless `git rev-parse HEAD` == `git rev-parse origin/staging`
+        puts 'WARNING: HEAD is not the same as origin/staging'
+        puts 'Run `git push` to sync changes.'
+        exit
+      end
+    end
+  end
+
+  before :starting, :check_revision
+end
